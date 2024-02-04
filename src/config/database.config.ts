@@ -1,3 +1,4 @@
+import { DataSource, DataSourceOptions } from 'typeorm';
 import * as path from 'path';
 import * as dotenv from 'dotenv';
 
@@ -10,7 +11,7 @@ if (result.error) {
   console.error('Error:while accessing the env', result.error);
 }
 
-export const DatabaseConfig = {
+export const DatabaseConfig: DataSourceOptions = {
   type: 'postgres' as any,
   database: process.env.POSTGRES_DATABASE,
   port: parseInt(process.env.POSTGRES_PORT) || 5342,
@@ -18,12 +19,13 @@ export const DatabaseConfig = {
   password: process.env.POSTGRES_PASSWORD,
   host: process.env.POSTGRES_HOST,
   synchronize: false,
-  migrationsRun: false,
-  keepConnectionAlive: true,
-  autoLoadEntities: process.env.TYPE_ORM_AUTOLOAD_ENTITIES == 'true',
-  entities: ['dist/**/*.entity{.ts,.js}'],
   migrations: ['dist/migrations/**/*{.ts,.js}'],
-  cli: { migrationsDir: 'src/migrations' },
+  entities: ['dist/entities/**/*{.ts,.js}'],
+  migrationsTableName: 'migrations',
+  //logging: true,
+  // cache: true,
 };
 
-export default DatabaseConfig;
+const dataSource = new DataSource(DatabaseConfig);
+
+export default dataSource;
