@@ -10,7 +10,7 @@ export class User {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ length: 40, nullable: false })
+  @Column({ length: 50, nullable: false })
   name: string;
 
   @Column({ length: 50, unique: true, nullable: false })
